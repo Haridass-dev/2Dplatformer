@@ -971,8 +971,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 500
+  animator: {fileID: 1185020270}
   showVelocity: {x: 0, y: 0}
   jump: 103.98
+  gravity: 35
+  grounded: 0
 --- !u!1 &1186504606
 GameObject:
   m_ObjectHideFlags: 0

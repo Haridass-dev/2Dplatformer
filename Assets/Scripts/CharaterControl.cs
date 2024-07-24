@@ -9,18 +9,21 @@ public class CharaterControl : MonoBehaviour
     [SerializeField] float speed = 1f;
     private float horizontalinput;
     private bool verticalinput;
-    Rigidbody2D rb;
-    SpriteRenderer sr;
-    Vector2 xy;
+    private Rigidbody2D rigidBody;
+    private SpriteRenderer spriteRenderer;
+    private Vector2 newPostion;
+    [SerializeField] Animator animator;
     [SerializeField] Vector2 showVelocity;
     [SerializeField] float jump;
+    [SerializeField] float gravity;
+    [SerializeField] bool grounded;
 
 
     
     void Start()
     {
-      rb = GetComponentInChildren<Rigidbody2D>();  
-      sr = GetComponent<SpriteRenderer>();
+      rigidBody = GetComponentInChildren<Rigidbody2D>();  
+      spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     
@@ -29,25 +32,27 @@ public class CharaterControl : MonoBehaviour
         movement();
         flipplayer();
         jumpplayer();
+        grouded();
     }
 
     void movement()
     {
         horizontalinput = Input.GetAxis("Horizontal");
-        xy.Set(horizontalinput, 0);
+        newPostion.Set(horizontalinput, 0);
 
-        rb.velocity = xy * speed * Time.deltaTime;
+        rigidBody.velocity = newPostion * speed * Time.deltaTime;
+        rigidBody.gravityScale = 1f;
     }
 
     void flipplayer()
     {
         if (horizontalinput < 0)
         {
-            sr.flipX = true;
+            spriteRenderer.flipX = true;
         }
         else
         {
-            sr.flipX = false;
+            spriteRenderer.flipX = false;
 
         }
     }
@@ -57,15 +62,65 @@ public class CharaterControl : MonoBehaviour
 
         verticalinput = Input.GetButton("Jump");
 
-        print(verticalinput);
+        //print(verticalinput);
 
         if (verticalinput)
         {
-            rb.AddForce(Vector2.up * jump);
+            rigidBody.AddForce(Vector2.up * jump);
             GetComponent<Animator>().SetTrigger("jumped");
+            // gravity value chage to 1
+            rigidBody.gravityScale = 1f;
+            grounded = false;
+            
         }
-
-        GetComponent<Animator>().SetTrigger("grounded");
+        else
+       
+        {
+            rigidBody.gravityScale = gravity;
+        }
     }
-  
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        grounded = true;
+       
+
+    }
+
+    void grouded()
+    {
+        
+        if (grounded == true)
+        {
+            rigidBody.gravityScale = 1f;
+            animator.SetBool("JUMP", true);
+            
+            
+        }
+        else
+        {
+            rigidBody.gravityScale = gravity;
+            animator.SetBool("JUMP", false);
+
+        }
+    
+    }
+    
+
+
+       
+    
+
+    
+        
+
+
+
+
+
+
+
+
+
 }
