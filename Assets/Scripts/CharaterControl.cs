@@ -67,7 +67,7 @@ public class CharaterControl : MonoBehaviour
         if (verticalinput)
         {
             rigidBody.AddForce(Vector2.up * jump);
-            GetComponent<Animator>().SetTrigger("jumped");
+            //GetComponent<Animator>().SetTrigger("jumped");
             // gravity value chage to 1
             rigidBody.gravityScale = 1f;
             grounded = false;
@@ -94,14 +94,14 @@ public class CharaterControl : MonoBehaviour
         if (grounded == true)
         {
             rigidBody.gravityScale = 1f;
-            animator.SetBool("JUMP", true);
+            animator.SetBool("jumped", true);
             
             
         }
         else
         {
             rigidBody.gravityScale = gravity;
-            animator.SetBool("JUMP", false);
+            animator.SetBool("jumped", false);
 
         }
     
