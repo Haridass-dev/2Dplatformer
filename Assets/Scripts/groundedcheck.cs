@@ -20,7 +20,7 @@ public class groundedcheck : MonoBehaviour
         if (groundCheck == null)
             return;
 
-        Gizmos.color = isGrounded ? Color.red : Color.green ;
+        Gizmos.color = isGrounded ? Color.blue : Color.green ;
         Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
     }
 }
