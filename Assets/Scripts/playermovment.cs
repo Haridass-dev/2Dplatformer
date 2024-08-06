@@ -31,12 +31,21 @@ public class playermovment : MonoBehaviour
              _rigidbody.AddForce(Vector2.up * jumpheaight, ForceMode2D.Impulse);
         }
 
+        //if (Input.GetButtonDown("Fire1"))
+       // {
+            //_anim.SetTrigger("Attack");
+        //}
+
         
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate() 
     {
         float horizontalinput = Input.GetAxis("Horizontal");
+        Vector2 xy = new Vector2(speed * Time.fixedDeltaTime * horizontalinput, _rigidbody.velocity.y);
+        _rigidbody.velocity = xy;
+
+
         if (Input.GetButton("sit"))
         {
             _anim.SetBool("sit", false);
@@ -47,8 +56,9 @@ public class playermovment : MonoBehaviour
         {
             _anim.SetBool("sit", true);
         }
-        Vector2 xy = new Vector2(speed * Time.fixedDeltaTime * horizontalinput, _rigidbody.velocity.y);
-        _rigidbody.velocity = xy;
+
+        
+      
         if (Mathf.Abs(horizontalinput) > 0.1f)
         {
 
@@ -95,10 +105,14 @@ public class playermovment : MonoBehaviour
         }
 
 
+         
+        }
+
+
 
 
 
     }
 
     
-}
+

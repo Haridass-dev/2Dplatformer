@@ -19,7 +19,7 @@ public class followplayer : MonoBehaviour
     {
         //transform.position = target.position + offset;
         transform.position = Vector3.Lerp(transform.position, target.position + offset, smooth * Time.deltaTime);
-            
+  
 
 
 
