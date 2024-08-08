@@ -9,6 +9,8 @@ public class PlayeCombat : MonoBehaviour
     public LayerMask enemy;
     public float attackrange = 0.5f;
     public int attackdamage = 40;
+    public float attackrate = 2f;
+    float nextattacktime = 0.5f;
 
 
 
@@ -22,7 +24,7 @@ public class PlayeCombat : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             Attack();
         }
