@@ -3582,7 +3582,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1185020272}
         m_TargetAssemblyTypeName: playermovment, Assembly-CSharp
-        m_MethodName: jump
+        m_MethodName: move
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
