@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
+using CnControls;
 
 public class playermovment : MonoBehaviour
 {
     Rigidbody2D _rigidbody;
-    [SerializeField] float speed = 1f;
-    [SerializeField] float jumpheaight = 1f;
+    [SerializeField] float _speed = 1f;
+    [SerializeField] float _jumpheaight = 1f;
 
     SpriteRenderer _spriteRenderer;
     Animator _anim;
     groundedcheck _ground;
-    float horizontalinput;
+    float _horizontalinput;
 
 
 
@@ -24,14 +25,20 @@ public class playermovment : MonoBehaviour
         _anim = GetComponent<Animator>();
         _ground = GetComponent<groundedcheck>();
 
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-       
 
+        _horizontalinput = 0f;
+        if (CnInputManager.GetButton("A")) { _horizontalinput = -1f; }
+        if (CnInputManager.GetButton("D")) { _horizontalinput = 1f; }
+
+        if (CnInputManager.GetButtonDown("Jump")) { jump(); }
+
+        move();
         siting();
         playerflip();
         running();
@@ -39,26 +46,25 @@ public class playermovment : MonoBehaviour
         groundcheck();
     }
 
-        
-
-        
-    
 
 
 
 
-    public void move(InputAction.CallbackContext context)
+
+
+
+
+    public void move()
     {
-        horizontalinput = context.ReadValue<float>();
-        Vector2 xy = new Vector2(speed * Time.fixedDeltaTime * horizontalinput, _rigidbody.velocity.y);
+        Vector2 xy = new Vector2(_speed * Time.fixedDeltaTime * _horizontalinput, _rigidbody.velocity.y);
         _rigidbody.velocity = xy;
     }
 
-    public void jump(InputAction.CallbackContext context)
+    public void jump()
     {
         if (_ground.isGrounded)
         {
-            _rigidbody.AddForce(Vector2.up * jumpheaight, ForceMode2D.Impulse);
+            _rigidbody.AddForce(Vector2.up * _jumpheaight, ForceMode2D.Impulse);
         }
     }
 
@@ -69,7 +75,7 @@ public class playermovment : MonoBehaviour
         if (Input.GetButton("sit"))
         {
             _anim.SetBool("sit", false);
-            horizontalinput = 0f;
+            _horizontalinput = 0f;
 
         }
         else
@@ -80,9 +86,9 @@ public class playermovment : MonoBehaviour
 
     public void playerflip()
     {
-        if (Mathf.Abs(horizontalinput) > 0.1f)
+        if (Mathf.Abs(_horizontalinput) > 0.1f)
         {
-            if (horizontalinput < 0)
+            if (_horizontalinput < 0)
             {
                 _spriteRenderer.flipX = true;
             }
@@ -96,7 +102,7 @@ public class playermovment : MonoBehaviour
 
     public void running()
     {
-        if (Mathf.Abs(horizontalinput) > 0.1f)
+        if (Mathf.Abs(_horizontalinput) > 0.1f)
         {
             _anim.SetBool("Run", true);
         }
@@ -132,14 +138,14 @@ public class playermovment : MonoBehaviour
         }
     }
 
-         
 
 
 
 
-           
-        
-    
+
+
+
+
 
 
 
@@ -147,5 +153,5 @@ public class playermovment : MonoBehaviour
 
 }
 
-    
+
 
