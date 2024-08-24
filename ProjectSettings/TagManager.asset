@@ -41,3 +41,27 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: cloud
+    uniqueID: 2438491793
+    locked: 0
+  - name: midel tree
+    uniqueID: 836965599
+    locked: 0
+  - name: front tree
+    uniqueID: 3848836821
+    locked: 0
+  - name: Underground_Background
+    uniqueID: 3129523861
+    locked: 0
+  - name: plane
+    uniqueID: 1736324763
+    locked: 0
+  - name: player
+    uniqueID: 1356497849
+    locked: 0
+  - name: enemy
+    uniqueID: 3164822019
+    locked: 0
+  - name: shop
+    uniqueID: 2818107139
+    locked: 0

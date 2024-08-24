@@ -24,14 +24,11 @@ public class playermovment : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _anim = GetComponent<Animator>();
         _ground = GetComponent<groundedcheck>();
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
         _horizontalinput = 0f;
         if (CnInputManager.GetButton("A")) { _horizontalinput = -1f; }
         if (CnInputManager.GetButton("D")) { _horizontalinput = 1f; }
