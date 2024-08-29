@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CnControls;
 
 public class PlayeCombat : MonoBehaviour
 {
@@ -10,44 +11,41 @@ public class PlayeCombat : MonoBehaviour
     public float attackrange = 0.5f;
     public int attackdamage = 40;
     public float attackrate = 2f;
-    float nextattacktime = 0.5f;
+    //oat nextattacktime = 0.5f;
 
-
-
-   
     void Start()
     {
-       anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
     }
 
-    
+
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.X))
+        if (CnInputManager.GetButtonDown("Fire1"))
         {
             Attack();
         }
-        
+
     }
 
     void Attack()
     {
         anim.SetTrigger("Attack");
-       Collider2D [] hitenemies = Physics2D.OverlapCircleAll(hitbox.position, attackrange, enemy);
+        Collider2D[] hitenemies = Physics2D.OverlapCircleAll(hitbox.position, attackrange, enemy);
 
-        foreach(Collider2D enemy in hitenemies)
+        foreach (Collider2D enemy in hitenemies)
         {
             enemy.GetComponent<Enemie>().TakeDamage(attackdamage);
         }
 
-       
+
     }
 
-     void OnDrawGizmosSelected()
+    void OnDrawGizmosSelected()
     {
 
-        if (hitbox== null) {  return; }
+        if (hitbox == null) { return; }
         Gizmos.DrawWireSphere(hitbox.position, attackrange);
     }
 

@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class Enemie : MonoBehaviour
 {
-
-    
-
     [SerializeField] int _maxhealth = 100;
     [SerializeField] Animator _anim;
     int _currenthealth;
@@ -14,12 +11,6 @@ public class Enemie : MonoBehaviour
     void Start()
     {
         _currenthealth = _maxhealth; 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void TakeDamage(int damage)
@@ -30,7 +21,6 @@ public class Enemie : MonoBehaviour
         if (_currenthealth < 0)
         {
             Die();
-           
         }
     }
 
@@ -39,10 +29,5 @@ public class Enemie : MonoBehaviour
         _anim.SetBool("isDead",true);
         GetComponent<Collider2D>().enabled =false;
         this.enabled = false;
-       
-       
     }
-
-   
-
 }
