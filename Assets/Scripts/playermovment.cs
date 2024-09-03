@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 using CnControls;
 
 public class playermovment : MonoBehaviour
@@ -11,15 +9,31 @@ public class playermovment : MonoBehaviour
     [SerializeField] float _speed = 1f;
     [SerializeField] float _jumpheaight = 1f;
 
-    SpriteRenderer _spriteRenderer;
+    [HideInInspector] public SpriteRenderer _spriteRenderer;
     Animator _anim;
-    groundedcheck _ground;
+    [HideInInspector] public groundedcheck _ground;
     float _horizontalinput;
 
+    [HideInInspector] public PlayeCombat _combat;
+    public bool _controllable = true;
+    bool _isJumping;
+
+    [Header("SFX")]
+    public AudioSource _jumpFX;
+    public AudioSource _landFX;
+    [Space]
+    public GameObject _smokePoint;
+    public GameObject _smoke;
+
+    public coinmanager _cm;
+    public PlayeCombat pc;
+
+   
 
 
     void Start()
     {
+        _combat = GetComponent<PlayeCombat>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _anim = GetComponent<Animator>();
@@ -29,6 +43,21 @@ public class playermovment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_combat._isDead || !_controllable)
+        {
+            _anim.SetLayerWeight(1, 0f);
+            _anim.SetBool("Run", false);
+            _rigidbody.velocity = Vector3.zero;
+            return;
+        }
+        if (_isJumping && _rigidbody.velocity.y < 0f && _ground.isGrounded)
+        {
+            _isJumping = false;
+            _landFX.Play();
+
+            GameObject _s = Instantiate(_smoke, _smokePoint.transform.position, _smokePoint.transform.rotation);
+            Destroy(_s, 1f);
+        }
         _horizontalinput = 0f;
         if (CnInputManager.GetButton("A")) { _horizontalinput = -1f; }
         if (CnInputManager.GetButton("D")) { _horizontalinput = 1f; }
@@ -62,6 +91,8 @@ public class playermovment : MonoBehaviour
         if (_ground.isGrounded)
         {
             _rigidbody.AddForce(Vector2.up * _jumpheaight, ForceMode2D.Impulse);
+            _jumpFX.Play();
+            _isJumping = true;
         }
     }
 
@@ -136,18 +167,21 @@ public class playermovment : MonoBehaviour
     }
 
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("coin"))
+        {
+            Destroy(collision.gameObject);
+            _cm.UpdateCoin();   
+        }
 
+        if (collision.gameObject.CompareTag("heart"))
+        {
+            Destroy(collision.gameObject);
+            pc.fulllife();
 
-
-
-
-
-
-
-
-
-
-
+        }
+    }
 }
 
 
